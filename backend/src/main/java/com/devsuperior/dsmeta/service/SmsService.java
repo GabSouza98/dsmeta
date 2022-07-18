@@ -3,21 +3,11 @@ package com.devsuperior.dsmeta.service;
 import com.devsuperior.dsmeta.entities.Sale;
 import com.devsuperior.dsmeta.repository.SaleRepository;
 import com.twilio.Twilio;
-import com.twilio.http.TwilioRestClient;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.text.DecimalFormat;
-import java.util.Optional;
 
 @Service
 public class SmsService {
