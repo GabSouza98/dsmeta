@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import { useEffect, useState } from 'react'
 import { BASE_URL } from '../../utils/request'
 import { Sale } from '../../models/sale'
+import React from 'react';
 
 function SalesCard() {
 
