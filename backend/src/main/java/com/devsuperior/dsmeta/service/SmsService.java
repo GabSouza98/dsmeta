@@ -51,21 +51,6 @@ public class SmsService {
         PhoneNumber to = new PhoneNumber(twilioPhoneTo);
         PhoneNumber from = new PhoneNumber(twilioPhoneFrom);
 
-//        //Set up Proxy user credentials
-//        CredentialsProvider credsProvider = new BasicCredentialsProvider();
-//
-//        //Set up Twilio user credentials
-//        credsProvider.setCredentials(
-//                new AuthScope("api.twilio.com", 443),
-//                new UsernamePasswordCredentials(twilioSid, twilioKey));
-//
-//        CloseableHttpClient httpClient = HttpClients.custom()
-//                .setDefaultCredentialsProvider(credsProvider)
-//                .build();
-//
-//        TwilioRestClient client = new TwilioRestClient(twilioSid, twilioKey);
-//        client.setHttpClient(httpClient);
-
         Message message = Message.creator(to, from, msg).create();
 
         System.out.println(message.getSid());
