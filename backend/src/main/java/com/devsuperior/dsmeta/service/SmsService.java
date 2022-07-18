@@ -3,8 +3,15 @@ package com.devsuperior.dsmeta.service;
 import com.devsuperior.dsmeta.entities.Sale;
 import com.devsuperior.dsmeta.repository.SaleRepository;
 import com.twilio.Twilio;
+import com.twilio.http.TwilioRestClient;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,23 +37,38 @@ public class SmsService {
     @Value("${twilio.phone.to}")
     private String twilioPhoneTo;
 
-    public String sendSms(Long id) {
+    public void sendSms(Long id) {
 
         Sale sale = saleRepository.findById(id).get();
 
         String date = sale.getDate().getMonthValue() + "/" + sale.getDate().getYear();
 
-        String msg = "O vendedor " + sale.getSellerName() + " foi destaque em " + date
-                + " com um total de R$ " + new DecimalFormat("#,##0.00").format(sale.getAmount());
+        String msg = String.format("O vendedor %s foi destaque em %s com um total de R$ %s",
+                sale.getSellerName(), date, sale.getAmount());
 
         Twilio.init(twilioSid, twilioKey);
 
         PhoneNumber to = new PhoneNumber(twilioPhoneTo);
         PhoneNumber from = new PhoneNumber(twilioPhoneFrom);
 
+//        //Set up Proxy user credentials
+//        CredentialsProvider credsProvider = new BasicCredentialsProvider();
+//
+//        //Set up Twilio user credentials
+//        credsProvider.setCredentials(
+//                new AuthScope("api.twilio.com", 443),
+//                new UsernamePasswordCredentials(twilioSid, twilioKey));
+//
+//        CloseableHttpClient httpClient = HttpClients.custom()
+//                .setDefaultCredentialsProvider(credsProvider)
+//                .build();
+//
+//        TwilioRestClient client = new TwilioRestClient(twilioSid, twilioKey);
+//        client.setHttpClient(httpClient);
+
         Message message = Message.creator(to, from, msg).create();
 
         System.out.println(message.getSid());
-        return "SMS ID: " + message.getSid() + " para " + to.toString();
+        //return "SMS ID: " + message.getSid() + " para " + to.toString();
     }
 }

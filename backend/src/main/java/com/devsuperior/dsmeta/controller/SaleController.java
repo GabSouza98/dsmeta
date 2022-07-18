@@ -6,6 +6,7 @@ import com.devsuperior.dsmeta.service.SmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.net.ssl.HostnameVerifier;
@@ -30,8 +31,9 @@ public class SaleController {
     }
 
     @GetMapping("/{id}/notification")
-    public String notifySms(@PathVariable Long id) {
-        return smsService.sendSms(id);
+    public void notifySms(@PathVariable Long id) {
+        smsService.sendSms(id);
+        //return ResponseEntity.ok(smsService.sendSms(id));
     }
 
 }
